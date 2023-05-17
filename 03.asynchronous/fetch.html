@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>fetch FBC top page</title>
+  </head>
+  <body>
+    abcd
+    <script>
+      console.log("2");
+      async function showToppage() {
+        const toppage = await fetch("https://bootcamp.fjord.jp/");
+        console.log(toppage.body);
+        // console.log(toppage);
+      };
+      showToppage();
+    </script>
+  </body>
+</html>

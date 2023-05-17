@@ -1,39 +1,29 @@
 #!/usr/bin/env node
 
-let options = process.argv.slice(2);
+const options = require("minimist")(process.argv);
 
-let date = new Date();
-let year = date.getFullYear();
-if (options.includes("-y")) {
-  let index_y = options.indexOf("-y");
-  year = Number(options[index_y + 1]);
-}
-let month = date.getMonth();
-if (options.includes("-m")) {
-  let index_m = options.indexOf("-m");
-  month = Number(options[index_m + 1]) - 1;
-}
+const date = new Date();
+let year = options.y ? Number(options.y) : date.getFullYear();
+let month = options.m ? Number(options.m) - 1 : date.getMonth();
 
-let month_display =
-  (month + 1).toLocaleString({ timeZone: "Asia/Tokyo" }) + "月";
-let year_display = year
-  .toLocaleString({ timeZone: "Asia/Tokyo" })
-  .replace(/,/, "");
+const month_display = String(month + 1) + "月";
+const year_display = String(year).replace(/,/, "");
 
 console.log("      " + month_display + " " + year_display);
 console.log("日 月 火 水 木 金 土");
 
-let first_day = new Date(year, month, 1).getDay();
-let last_date = new Date(year, month + 1, 0).getDate();
-let dummy_days = new Array(first_day).fill("  ");
-let days = [];
+const first_day = new Date(year, month, 1).getDay();
+const last_date = new Date(year, month + 1, 0).getDate();
+let days = new Array(first_day).fill("  ");
 for (let i = 1; i <= last_date; i++) {
-  let j = (" " + i.toString()).slice(-2);
+  let j = i <= 9 ? i.toString().padStart(2) : i.toString();
   days.push(j);
 }
 
-let days_display = dummy_days.concat(days);
-for (; 0 < days_display.length; ) {
-  let seven_days = days_display.splice(0, 7);
-  console.log(seven_days.join(" "));
-}
+days.forEach(function (element, index, array) {
+  if (index % 7 === 6 || index === array.length - 1) {
+    process.stdout.write(element + "\n");
+  } else {
+    process.stdout.write(element + " ");
+  }
+});
