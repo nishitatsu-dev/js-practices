@@ -2,28 +2,18 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>非同期通信の課題</title>
+    <title>fetch FBC top page</title>
   </head>
   <body>
-    <button onclick="fetchFBCtop();">
-      このボタンをクリックするとコンソールに表示
-    </button>
-
+    abcd
     <script>
-      async function fetchFBCtop() {
-        try {
-          const response = await fetch("https://bootcamp.fjord.jp/");
-          if (!response.ok) {
-            throw new Error(
-              `HTTPレスポンスのステータスコード${response.status}`
-            );
-          }
-          const text = await response.text();
-          console.log(text);
-        } catch (error) {
-          console.error(`エラーが発生しました。(${error})`);
-        }
-      }
+      console.log("2");
+      async function showToppage() {
+        const toppage = await fetch("https://bootcamp.fjord.jp/");
+        console.log(toppage.body);
+        // console.log(toppage);
+      };
+      showToppage();
     </script>
   </body>
 </html>
