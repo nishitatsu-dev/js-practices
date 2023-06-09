@@ -18,9 +18,9 @@ async function listMemoName() {
 async function referMemoValue() {
   const memos = await ReadWriteFile.jsonToObject();
   const memos_map = memos.objectToMap();
-  let names = [];
+  let bodies = [];
   memos_map.forEach((body) => {
-    names.push(body);
+    bodies.push(body);
   });
 
   inquirer
@@ -29,7 +29,7 @@ async function referMemoValue() {
         type: "list",
         name: "note",
         message: "Choose a note you want to see:",
-        choices: names,
+        choices: bodies,
       },
     ])
     .then((answers) => {
