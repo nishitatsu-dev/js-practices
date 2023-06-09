@@ -4,8 +4,13 @@
     "lint": "prettier --check . && eslint ."
   },
   "devDependencies": {
-    "eslint": "^8.24.0",
-    "eslint-config-prettier": "^8.5.0",
-    "prettier": "^2.7.1"
-  }
+    "eslint": "^8.41.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "commander": "^10.0.1",
+    "inquirer": "^9.2.6"
+  },
+  "type": "module"
 }
