@@ -13,7 +13,7 @@ export default class AllMemos {
       if (memoFileJson.length <= minimumLength) {
         memosMap.set(0, new OneMemo(["仮メモ（内容無し）"]));
       } else {
-        const memoFile = await JSON.parse(memoFileJson);
+        const memoFile = JSON.parse(memoFileJson);
         const allLines = memoFile.allLines;
         allLines.forEach((lines, i) => {
           memosMap.set(i, new OneMemo(lines));
