@@ -1,4 +1,4 @@
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import OneMemo from "./one_memo.js";
 
 export default class AllMemos {
@@ -7,7 +7,7 @@ export default class AllMemos {
   static async read() {
     try {
       const memos = new AllMemos();
-      const memos_json = fs.readFileSync("exclude/memos.json", {
+      const memos_json = await fs.readFile("exclude/memos.json", {
         encoding: "utf8",
       });
       const memosMap = new Map();
@@ -40,7 +40,7 @@ export default class AllMemos {
       }
       const memoFile = { allLines: allLines };
       const memos_json = JSON.stringify(memoFile, null, 2);
-      fs.writeFileSync("exclude/memos.json", memos_json);
+      await fs.writeFile("exclude/memos.json", memos_json);
     } catch (e) {
       console.error(e.name + ": " + e.message);
       process.exitCode = 1;
