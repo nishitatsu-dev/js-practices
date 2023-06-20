@@ -31,7 +31,7 @@ async function referMemoValue() {
       },
     ])
     .then((answers) => {
-      console.log("\n" + answers.note);
+      console.log(answers.note);
     });
 }
 
