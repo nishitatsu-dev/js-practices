@@ -60,21 +60,17 @@ async function deleteMemo() {
     });
 }
 
-function readTerminal() {
-  return new Promise((resolve) => {
-    const reader = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      terminal: false,
-    });
-    const lines = [];
-    reader.on("line", function (line) {
-      lines.push(line);
-    });
-    reader.on("close", function () {
-      resolve(lines);
-    });
+async function readTerminal() {
+  const reader = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false,
   });
+  const lines = [];
+  for await (const line of reader) {
+    lines.push(line);
+  }
+  return lines;
 }
 
 async function writeMemo() {
