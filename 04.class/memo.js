@@ -8,7 +8,7 @@ import AllMemos from "./all_memos.js";
 async function listMemoName() {
   const memos = await AllMemos.read();
   const memosMap = memos.map;
-  let names = [];
+  const names = [];
   memosMap.forEach((body) => {
     names.push(body.name);
   });
@@ -18,7 +18,7 @@ async function listMemoName() {
 async function referMemoValue() {
   const memos = await AllMemos.read();
   const memosMap = memos.map;
-  let bodies = [];
+  const bodies = [];
   memosMap.forEach((body) => {
     bodies.push(body);
   });
@@ -40,7 +40,7 @@ async function referMemoValue() {
 async function deleteMemo() {
   const memos = await AllMemos.read();
   const memosMap = memos.map;
-  let invertValues = [];
+  const invertValues = [];
   memosMap.forEach((memo, date) => {
     const invertValue = { name: memo.name, value: date };
     invertValues.push(invertValue);
@@ -69,7 +69,7 @@ function readTerminal() {
       output: process.stdout,
       terminal: false,
     });
-    let lines = [];
+    const lines = [];
     reader.on("line", function (line) {
       lines.push(line);
     });
