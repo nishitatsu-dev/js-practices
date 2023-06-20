@@ -2,8 +2,6 @@ import * as fs from "node:fs/promises";
 import OneMemo from "./one_memo.js";
 
 export default class AllMemos {
-  constructor() {}
-
   static async read() {
     try {
       const memos = new AllMemos();
