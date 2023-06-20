@@ -3,11 +3,11 @@
 import { program } from "commander";
 import inquirer from "inquirer";
 import * as readline from "node:readline";
-import { ReadWriteFile } from "./read_write_file.js";
+import AllMemos from "./all_memos.js";
 
 async function listMemoName() {
-  const memos = await ReadWriteFile.jsonToObject();
-  const memos_map = memos.objectToMap();
+  const memos = await AllMemos.read();
+  const memos_map = memos.map;
   let names = [];
   memos_map.forEach((body) => {
     names.push(body.name);
@@ -16,8 +16,8 @@ async function listMemoName() {
 }
 
 async function referMemoValue() {
-  const memos = await ReadWriteFile.jsonToObject();
-  const memos_map = memos.objectToMap();
+  const memos = await AllMemos.read();
+  const memos_map = memos.map;
   let bodies = [];
   memos_map.forEach((body) => {
     bodies.push(body);
@@ -38,8 +38,8 @@ async function referMemoValue() {
 }
 
 async function deleteMemo() {
-  const memos = await ReadWriteFile.jsonToObject();
-  const memos_map = memos.objectToMap();
+  const memos = await AllMemos.read();
+  const memos_map = memos.map;
   let invert_values = [];
   memos_map.forEach((memo, date) => {
     const invert_value = { name: memo.name, value: date };
@@ -57,8 +57,8 @@ async function deleteMemo() {
     ])
     .then((answers) => {
       memos_map.delete(answers.note);
-      memos.object = Object.fromEntries(memos_map);
-      memos.save();
+      memos.map = memos_map;
+      memos.write();
     });
 }
 
@@ -80,11 +80,9 @@ function readTerminal() {
 }
 
 async function writeMemo() {
-  const lines = await readTerminal();
-  const new_memo = { [Date()]: { name: lines[0], value: lines.join("\n") } };
-  const memos = await ReadWriteFile.jsonToObject();
-  memos.object = await Object.assign(memos.object, new_memo);
-  memos.save();
+  const newLines = await readTerminal();
+  const memos = await AllMemos.read();
+  memos.write(newLines);
 }
 
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
