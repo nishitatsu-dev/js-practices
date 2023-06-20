@@ -7,15 +7,15 @@ export default class AllMemos {
   static async read() {
     try {
       const memos = new AllMemos();
-      const memos_json = await fs.readFile("exclude/memos.json", {
+      const memoFileJson = await fs.readFile("exclude/memos.json", {
         encoding: "utf8",
       });
       const memosMap = new Map();
-      const minimum_length = 20;
-      if (memos_json.length <= minimum_length) {
+      const minimumLength = 20;
+      if (memoFileJson.length <= minimumLength) {
         memosMap.set(0, new OneMemo(["仮メモ（内容無し）"]));
       } else {
-        const memoFile = await JSON.parse(memos_json);
+        const memoFile = await JSON.parse(memoFileJson);
         const allLines = memoFile.allLines;
         allLines.forEach((lines, i) => {
           memosMap.set(i, new OneMemo(lines));
@@ -39,8 +39,8 @@ export default class AllMemos {
         allLines.push(newLines);
       }
       const memoFile = { allLines: allLines };
-      const memos_json = JSON.stringify(memoFile, null, 2);
-      await fs.writeFile("exclude/memos.json", memos_json);
+      const memoFileJson = JSON.stringify(memoFile, null, 2);
+      await fs.writeFile("exclude/memos.json", memoFileJson);
     } catch (e) {
       console.error(e.name + ": " + e.message);
       process.exitCode = 1;

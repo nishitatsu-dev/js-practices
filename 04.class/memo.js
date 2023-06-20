@@ -7,9 +7,9 @@ import AllMemos from "./all_memos.js";
 
 async function listMemoName() {
   const memos = await AllMemos.read();
-  const memos_map = memos.map;
+  const memosMap = memos.map;
   let names = [];
-  memos_map.forEach((body) => {
+  memosMap.forEach((body) => {
     names.push(body.name);
   });
   console.log(names.join("\n"));
@@ -17,9 +17,9 @@ async function listMemoName() {
 
 async function referMemoValue() {
   const memos = await AllMemos.read();
-  const memos_map = memos.map;
+  const memosMap = memos.map;
   let bodies = [];
-  memos_map.forEach((body) => {
+  memosMap.forEach((body) => {
     bodies.push(body);
   });
 
@@ -39,11 +39,11 @@ async function referMemoValue() {
 
 async function deleteMemo() {
   const memos = await AllMemos.read();
-  const memos_map = memos.map;
-  let invert_values = [];
-  memos_map.forEach((memo, date) => {
-    const invert_value = { name: memo.name, value: date };
-    invert_values.push(invert_value);
+  const memosMap = memos.map;
+  let invertValues = [];
+  memosMap.forEach((memo, date) => {
+    const invertValue = { name: memo.name, value: date };
+    invertValues.push(invertValue);
   });
 
   inquirer
@@ -52,12 +52,12 @@ async function deleteMemo() {
         type: "list",
         name: "note",
         message: "Choose a note you want to delete:",
-        choices: invert_values,
+        choices: invertValues,
       },
     ])
     .then((answers) => {
-      memos_map.delete(answers.note);
-      memos.map = memos_map;
+      memosMap.delete(answers.note);
+      memos.map = memosMap;
       memos.write();
     });
 }
