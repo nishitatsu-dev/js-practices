@@ -24,8 +24,12 @@ export default class AllMemos {
       memos.map = memosMap;
       return memos;
     } catch (e) {
-      console.error(e.name + ": " + e.message);
-      process.exitCode = 1;
+      if (e.code === "ENOENT") {
+        console.error(e.name + ": " + e.message);
+        process.exitCode = 1;
+      } else {
+        throw e;
+      }
     }
   }
 
@@ -42,8 +46,12 @@ export default class AllMemos {
       const memoFileJson = JSON.stringify(memoFile, null, 2);
       await fs.writeFile("exclude/memos.json", memoFileJson);
     } catch (e) {
-      console.error(e.name + ": " + e.message);
-      process.exitCode = 1;
+      if (e.code === "ENOENT") {
+        console.error(e.name + ": " + e.message);
+        process.exitCode = 1;
+      } else {
+        throw e;
+      }
     }
   }
 }
