@@ -8,11 +8,9 @@ import AllMemos from "./all_memos.js";
 async function listMemoName() {
   const memos = await AllMemos.read();
   const memosMap = memos.map;
-  const names = [];
   memosMap.forEach((body) => {
-    names.push(body.name);
+    console.log(body.name);
   });
-  console.log(names.join("\n"));
 }
 
 async function referMemoValue() {
