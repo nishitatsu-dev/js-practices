@@ -5,17 +5,13 @@ import inquirer from "inquirer";
 import * as readline from "node:readline";
 import AllMemos from "./all_memos.js";
 
-async function listMemoName() {
-  const memos = await AllMemos.read();
-  const memosMap = memos.map;
+async function listMemoName(memosMap) {
   memosMap.forEach((body) => {
     console.log(body.name);
   });
 }
 
-async function referMemoValue() {
-  const memos = await AllMemos.read();
-  const memosMap = memos.map;
+async function referMemoValue(memosMap) {
   const bodies = [];
   memosMap.forEach((body) => {
     bodies.push(body);
@@ -35,9 +31,7 @@ async function referMemoValue() {
     });
 }
 
-async function deleteMemo() {
-  const memos = await AllMemos.read();
-  const memosMap = memos.map;
+async function deleteMemo(memosMap) {
   const invertValues = [];
   memosMap.forEach((memo, date) => {
     const invertValue = { name: memo.name, value: date };
@@ -73,21 +67,22 @@ async function readTerminal() {
   return lines;
 }
 
-async function writeMemo() {
+async function writeMemo(memos) {
   const newLines = await readTerminal();
-  const memos = await AllMemos.read();
   memos.write(newLines);
 }
 
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
 program.parse(process.argv);
 const options = program.opts();
+const memos = await AllMemos.read();
+const memosMap = memos.map;
 if (options.l) {
-  listMemoName();
+  memosMap.size === 0 ? console.log("メモ無し") : listMemoName(memosMap);
 } else if (options.r) {
-  referMemoValue();
+  memosMap.size === 0 ? console.log("メモ無し") : referMemoValue(memosMap);
 } else if (options.d) {
-  deleteMemo();
+  memosMap.size === 0 ? console.log("メモ無し") : deleteMemo(memosMap);
 } else {
-  writeMemo();
+  writeMemo(memos);
 }
