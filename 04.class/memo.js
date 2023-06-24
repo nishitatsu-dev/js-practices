@@ -17,18 +17,15 @@ async function referMemoValue(memosMap) {
     bodies.push(body);
   });
 
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "note",
-        message: "Choose a note you want to see:",
-        choices: bodies,
-      },
-    ])
-    .then((answers) => {
-      console.log(answers.note);
-    });
+  const answers = await inquirer.prompt([
+    {
+      type: "list",
+      name: "note",
+      message: "Choose a note you want to see:",
+      choices: bodies,
+    },
+  ]);
+  console.log(answers.note);
 }
 
 async function deleteMemo(memosMap) {
@@ -38,20 +35,17 @@ async function deleteMemo(memosMap) {
     invertValues.push(invertValue);
   });
 
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "note",
-        message: "Choose a note you want to delete:",
-        choices: invertValues,
-      },
-    ])
-    .then((answers) => {
-      memosMap.delete(answers.note);
-      memos.map = memosMap;
-      memos.write();
-    });
+  const answers = await inquirer.prompt([
+    {
+      type: "list",
+      name: "note",
+      message: "Choose a note you want to delete:",
+      choices: invertValues,
+    },
+  ]);
+  await memosMap.delete(answers.note);
+  memos.map = memosMap;
+  await memos.write();
 }
 
 async function readTerminal() {
