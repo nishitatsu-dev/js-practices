@@ -2,9 +2,8 @@ import * as fs from "node:fs/promises";
 import OneMemo from "./one_memo.js";
 
 export default class AllMemos {
-  static async read() {
+  async read() {
     try {
-      const memos = new AllMemos();
       const memoFileJson = await fs.readFile("memos.json", {
         encoding: "utf8",
       });
@@ -14,8 +13,7 @@ export default class AllMemos {
       allLines.forEach((lines, i) => {
         memosMap.set(i, new OneMemo(lines));
       });
-      memos.map = memosMap;
-      return memos;
+      this.map = memosMap;
     } catch (e) {
       if (e.code === "ENOENT") {
         console.error(e.name + ": " + e.message);

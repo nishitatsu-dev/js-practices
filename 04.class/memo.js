@@ -69,7 +69,8 @@ async function writeMemo(memos) {
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
 program.parse(process.argv);
 const options = program.opts();
-const memos = await AllMemos.read();
+const memos = new AllMemos();
+await memos.read();
 const memosMap = memos.map;
 if (options.l) {
   memosMap.size === 0 ? console.log("メモ無し") : listMemoName(memosMap);
