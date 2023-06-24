@@ -5,7 +5,7 @@ export default class AllMemos {
   static async read() {
     try {
       const memos = new AllMemos();
-      const memoFileJson = await fs.readFile("exclude/memos.json", {
+      const memoFileJson = await fs.readFile("memos.json", {
         encoding: "utf8",
       });
       const memosMap = new Map();
@@ -18,6 +18,13 @@ export default class AllMemos {
       return memos;
     } catch (e) {
       if (e.code === "ENOENT") {
+        console.error(e.name + ": " + e.message);
+        const memoFile = { allLines: [] };
+        const memoFileJson = JSON.stringify(memoFile, null, 2);
+        await fs.writeFile("memos.json", memoFileJson);
+        console.error("memos.jsonファイルを作りました。リトライしてください");
+        process.exitCode = 1;
+      } else if (e.code === "EPERM" || e.code === "EBUSY") {
         console.error(e.name + ": " + e.message);
         process.exitCode = 1;
       } else {
@@ -37,7 +44,7 @@ export default class AllMemos {
       }
       const memoFile = { allLines: allLines };
       const memoFileJson = JSON.stringify(memoFile, null, 2);
-      await fs.writeFile("exclude/memos.json", memoFileJson);
+      await fs.writeFile("memos.json", memoFileJson);
     } catch (e) {
       if (e.code === "ENOENT") {
         console.error(e.name + ": " + e.message);
