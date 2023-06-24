@@ -2,7 +2,7 @@
 
 import { program } from "commander";
 import inquirer from "inquirer";
-import * as readline from "node:readline";
+import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
 
 async function listMemoName(memosMap) {
