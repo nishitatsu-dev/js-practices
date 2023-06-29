@@ -6,15 +6,15 @@ import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
 
 async function listMemoName(allMemos) {
-  allMemos.forEach((body) => {
-    console.log(body.name);
+  allMemos.forEach((oneMemo) => {
+    console.log(oneMemo.getFirstLine());
   });
 }
 
 async function referMemoValue(allMemos) {
   const displayItems = [];
-  allMemos.forEach((memo) => {
-    const item = { name: memo.name, value: memo.value };
+  allMemos.forEach((oneMemo) => {
+    const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
     displayItems.push(item);
   });
 
@@ -31,8 +31,8 @@ async function referMemoValue(allMemos) {
 
 async function deleteMemo(allMemos) {
   const invertValues = [];
-  allMemos.forEach((memo, index) => {
-    const invertValue = { name: memo.name, value: index };
+  allMemos.forEach((oneMemo, index) => {
+    const invertValue = { name: oneMemo.getFirstLine(), value: index };
     invertValues.push(invertValue);
   });
 

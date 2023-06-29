@@ -43,7 +43,7 @@ export default class AllMemos {
     try {
       const allLines = [];
       allMemos.forEach((oneMemo) => {
-        allLines.push(oneMemo.lines);
+        allLines.push(oneMemo.getLines());
       });
       const memoFile = { allLines: allLines };
       const memoFileJson = JSON.stringify(memoFile, null, 2);
