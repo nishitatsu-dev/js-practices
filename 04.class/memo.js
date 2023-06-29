@@ -30,8 +30,8 @@ async function referMemoValue(memosMap) {
 
 async function deleteMemo(memosMap) {
   const invertValues = [];
-  memosMap.forEach((memo, date) => {
-    const invertValue = { name: memo.name, value: date };
+  memosMap.forEach((memo, index) => {
+    const invertValue = { name: memo.name, value: index };
     invertValues.push(invertValue);
   });
 
