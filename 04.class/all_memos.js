@@ -7,13 +7,14 @@ export default class AllMemos {
       const memoFileJson = await fs.readFile("memos.json", {
         encoding: "utf8",
       });
-      const memosMap = new Map();
       const memoFile = JSON.parse(memoFileJson);
       const allLines = memoFile.allLines;
-      allLines.forEach((lines, i) => {
-        memosMap.set(i, new OneMemo(lines));
+      const allMemos = [];
+      await allLines.forEach((lines) => {
+        allMemos.push(new OneMemo(lines));
       });
-      this.map = memosMap;
+      this.memos = allMemos;
+      return allMemos;
     } catch (e) {
       if (e.code === "ENOENT") {
         console.error(e.name + ": " + e.message);
@@ -31,15 +32,19 @@ export default class AllMemos {
     }
   }
 
-  async write(newLines = null) {
+  async add(newLines) {
+    const newMemo = new OneMemo(newLines);
+    const allMemos = this.memos;
+    allMemos.push(newMemo);
+    return allMemos;
+  }
+
+  async write(allMemos) {
     try {
       const allLines = [];
-      this.map.forEach((oneMemo) => {
+      allMemos.forEach((oneMemo) => {
         allLines.push(oneMemo.lines);
       });
-      if (newLines !== null) {
-        allLines.push(newLines);
-      }
       const memoFile = { allLines: allLines };
       const memoFileJson = JSON.stringify(memoFile, null, 2);
       await fs.writeFile("memos.json", memoFileJson);
