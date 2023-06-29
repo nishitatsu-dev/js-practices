@@ -5,7 +5,7 @@ import inquirer from "inquirer";
 import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
 
-async function listMemoName(allMemos) {
+function listMemoName(allMemos) {
   allMemos.forEach((oneMemo) => {
     console.log(oneMemo.getFirstLine());
   });
@@ -13,7 +13,7 @@ async function listMemoName(allMemos) {
 
 async function referMemoValue(allMemos) {
   const displayItems = [];
-  allMemos.forEach((oneMemo) => {
+  await allMemos.forEach((oneMemo) => {
     const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
     displayItems.push(item);
   });
@@ -31,7 +31,7 @@ async function referMemoValue(allMemos) {
 
 async function deleteMemo(allMemos) {
   const invertValues = [];
-  allMemos.forEach((oneMemo, index) => {
+  await allMemos.forEach((oneMemo, index) => {
     const invertValue = { name: oneMemo.getFirstLine(), value: index };
     invertValues.push(invertValue);
   });

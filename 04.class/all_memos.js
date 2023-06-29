@@ -42,7 +42,7 @@ export default class AllMemos {
   async write(allMemos) {
     try {
       const allLines = [];
-      allMemos.forEach((oneMemo) => {
+      await allMemos.forEach((oneMemo) => {
         allLines.push(oneMemo.getLines());
       });
       const memoFile = { allLines: allLines };
