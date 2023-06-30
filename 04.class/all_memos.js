@@ -5,11 +5,14 @@ export default class AllMemos {
   #file;
   #memos;
 
-  async read() {
-    const file = new FileOperation("memos.json");
+  async setFile(fileName) {
+    const file = new FileOperation(fileName);
     this.#file = file;
     await file.check();
-    const memoFileJson = await file.readFile();
+  }
+
+  async readAllMemos() {
+    const memoFileJson = await this.#file.readFile();
     const memoFile = JSON.parse(memoFileJson);
     const allLines = memoFile.allLines;
     const allMemos = [];

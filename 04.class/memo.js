@@ -72,7 +72,8 @@ program.parse(process.argv);
 const options = program.opts();
 
 const memos = new AllMemos();
-const allMemos = await memos.read();
+await memos.setFile("memos.json");
+const allMemos = await memos.readAllMemos();
 
 if (options.l) {
   allMemos.length === 0 ? console.log("メモ無し") : listMemoName(allMemos);
