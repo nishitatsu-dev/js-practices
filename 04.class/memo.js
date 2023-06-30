@@ -72,7 +72,7 @@ program.parse(process.argv);
 const options = program.opts();
 
 const memos = new AllMemos();
-await memos.setFile("memos.json");
+await memos.setFile("memofile.json");
 const allMemos = await memos.readAllMemos();
 
 if (options.l) {
