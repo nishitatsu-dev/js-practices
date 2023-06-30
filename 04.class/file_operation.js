@@ -10,7 +10,7 @@ export default class FileOperation {
     try {
       await fs.stat(this.#fileName);
     } catch (e) {
-      if (e.code === "ENOENT") {
+      if (e.constructor === Error && e.code === "ENOENT") {
         const memoFile = { allLines: [] };
         const memoFileJson = JSON.stringify(memoFile, null, 2);
         await fs.writeFile(this.#fileName, memoFileJson);
