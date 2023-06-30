@@ -22,31 +22,13 @@ export default class FileOperation {
   }
 
   async readFile() {
-    try {
-      const memoFileJson = await fs.readFile(this.#fileName, {
-        encoding: "utf8",
-      });
-      return memoFileJson;
-    } catch (e) {
-      if (e.code === "EPERM" || e.code === "EBUSY") {
-        console.error(e.name + ": " + e.message);
-        process.exitCode = 1;
-      } else {
-        throw e;
-      }
-    }
+    const memoFileJson = await fs.readFile(this.#fileName, {
+      encoding: "utf8",
+    });
+    return memoFileJson;
   }
 
   async writeFile(memoFileJson) {
-    try {
-      await fs.writeFile(this.#fileName, memoFileJson);
-    } catch (e) {
-      if (e.code === "ENOENT") {
-        console.error(e.name + ": " + e.message);
-        process.exitCode = 1;
-      } else {
-        throw e;
-      }
-    }
+    await fs.writeFile(this.#fileName, memoFileJson);
   }
 }
