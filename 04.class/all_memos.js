@@ -13,8 +13,7 @@ export default class AllMemos {
 
   async readAllMemos() {
     const memoFileJson = await this.#file.readFile();
-    const memoFile = JSON.parse(memoFileJson);
-    const allLines = memoFile.allLines;
+    const allLines = JSON.parse(memoFileJson).allLines;
     const allMemos = [];
     await allLines.forEach((lines) => {
       allMemos.push(new OneMemo(lines));
@@ -26,7 +25,7 @@ export default class AllMemos {
   async add(newLines) {
     const newMemo = new OneMemo(newLines);
     const allMemos = this.#memos;
-    allMemos.push(newMemo);
+    await allMemos.push(newMemo);
     return allMemos;
   }
 

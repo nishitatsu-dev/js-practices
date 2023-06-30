@@ -30,10 +30,10 @@ async function referMemoValue(allMemos) {
 }
 
 async function deleteMemo(allMemos) {
-  const invertValues = [];
+  const displayItems = [];
   await allMemos.forEach((oneMemo, index) => {
-    const invertValue = { name: oneMemo.getFirstLine(), value: index };
-    invertValues.push(invertValue);
+    const Item = { name: oneMemo.getFirstLine(), value: index };
+    displayItems.push(Item);
   });
 
   const answers = await inquirer.prompt([
@@ -41,7 +41,7 @@ async function deleteMemo(allMemos) {
       type: "list",
       name: "note",
       message: "Choose a note you want to delete:",
-      choices: invertValues,
+      choices: displayItems,
     },
   ]);
   await allMemos.splice(answers.note, 1);
@@ -54,11 +54,11 @@ async function readTerminal() {
     output: process.stdout,
     terminal: false,
   });
-  const lines = [];
+  const newLines = [];
   for await (const line of reader) {
-    lines.push(line);
+    newLines.push(line);
   }
-  return lines;
+  return newLines;
 }
 
 async function writeMemo(memos) {
