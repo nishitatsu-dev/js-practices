@@ -8,6 +8,7 @@ export default class AllMemos {
   async read() {
     const file = new FileOperation("memos.json");
     this.#file = file;
+    await file.check();
     const memoFileJson = await file.readFile();
     const memoFile = JSON.parse(memoFileJson);
     const allLines = memoFile.allLines;
