@@ -4,6 +4,7 @@ import { program } from "commander";
 import inquirer from "inquirer";
 import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
+import FileOperation from "./file_operation.js";
 
 function listMemoName(allMemos) {
   allMemos.forEach((oneMemo) => {
@@ -29,7 +30,7 @@ async function referMemoValue(allMemos) {
   console.log(answers.note);
 }
 
-async function deleteMemo(allMemos) {
+async function deleteMemo(allMemos, memos, file) {
   const displayItems = [];
   await allMemos.forEach((oneMemo, index) => {
     const Item = { name: oneMemo.getFirstLine(), value: index };
@@ -45,7 +46,8 @@ async function deleteMemo(allMemos) {
     },
   ]);
   await allMemos.splice(answers.note, 1);
-  await memos.write(allMemos);
+  const memoJson = await memos.objectsToJson(allMemos);
+  file.writeFile(memoJson);
 }
 
 async function readTerminal() {
@@ -61,26 +63,31 @@ async function readTerminal() {
   return newLines;
 }
 
-async function writeMemo(memos) {
+async function writeMemo(memos, file) {
   const newLines = await readTerminal();
   const allMemos = await memos.add(newLines);
-  memos.write(allMemos);
+  const memoJson = await memos.objectsToJson(allMemos);
+  file.writeFile(memoJson);
 }
 
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
 program.parse(process.argv);
 const options = program.opts();
 
+const file = new FileOperation("memos.json");
+await file.check();
+const memoJson = await file.readFile();
 const memos = new AllMemos();
-await memos.setFile("memofile.json");
-const allMemos = await memos.readAllMemos();
+const allMemos = await memos.jsonToObjects(memoJson);
 
 if (options.l) {
   allMemos.length === 0 ? console.log("メモ無し") : listMemoName(allMemos);
 } else if (options.r) {
   allMemos.length === 0 ? console.log("メモ無し") : referMemoValue(allMemos);
 } else if (options.d) {
-  allMemos.length === 0 ? console.log("メモ無し") : deleteMemo(allMemos);
+  allMemos.length === 0
+    ? console.log("メモ無し")
+    : deleteMemo(allMemos, memos, file);
 } else {
-  writeMemo(memos);
+  writeMemo(memos, file);
 }

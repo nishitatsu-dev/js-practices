@@ -1,19 +1,10 @@
-import FileOperation from "./file_operation.js";
 import OneMemo from "./one_memo.js";
 
 export default class AllMemos {
-  #file;
   #memos;
 
-  async setFile(fileName) {
-    const file = new FileOperation(fileName);
-    this.#file = file;
-    await file.check();
-  }
-
-  async readAllMemos() {
-    const memoFileJson = await this.#file.readFile();
-    const allLines = JSON.parse(memoFileJson).allLines;
+  async jsonToObjects(memoJson) {
+    const allLines = JSON.parse(memoJson).allLines;
     const allMemos = [];
     await allLines.forEach((lines) => {
       allMemos.push(new OneMemo(lines));
@@ -29,13 +20,13 @@ export default class AllMemos {
     return allMemos;
   }
 
-  async write(allMemos) {
+  async objectsToJson(allMemos) {
     const allLines = [];
     await allMemos.forEach((oneMemo) => {
       allLines.push(oneMemo.getLines());
     });
     const memoFile = { allLines: allLines };
-    const memoFileJson = JSON.stringify(memoFile, null, 2);
-    await this.#file.writeFile(memoFileJson);
+    const memoJson = JSON.stringify(memoFile, null, 2);
+    return memoJson;
   }
 }

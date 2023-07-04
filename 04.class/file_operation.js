@@ -28,7 +28,7 @@ export default class FileOperation {
     return memoFileJson;
   }
 
-  async writeFile(memoFileJson) {
-    await fs.writeFile(this.#fileName, memoFileJson);
+  async writeFile(memoJson) {
+    await fs.writeFile(this.#fileName, memoJson);
   }
 }
