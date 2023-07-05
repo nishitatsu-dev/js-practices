@@ -74,7 +74,7 @@ program.option("-l", "list").option("-r", "refer").option("-d", "delete");
 program.parse(process.argv);
 const options = program.opts();
 
-const file = new FileOperation("memos.json");
+const file = new FileOperation("memofile.json");
 await file.check();
 const memoJson = await file.readFile();
 const allMemos = new AllMemos();
