@@ -3,24 +3,32 @@ import OneMemo from "./one_memo.js";
 export default class AllMemos {
   #memos;
 
-  async jsonToObjects(memoJson) {
+  getMemos() {
+    return this.#memos;
+  }
+
+  async toObjects(memoJson) {
     const allLines = JSON.parse(memoJson).allLines;
     const allMemos = [];
     await allLines.forEach((lines) => {
       allMemos.push(new OneMemo(lines));
     });
     this.#memos = allMemos;
-    return allMemos;
   }
 
-  async add(newLines) {
+  delete(index) {
+    this.#memos.splice(index, 1);
+  }
+
+  add(newLines) {
     const newMemo = new OneMemo(newLines);
     const allMemos = this.#memos;
-    await allMemos.push(newMemo);
-    return allMemos;
+    allMemos.push(newMemo);
+    this.#memos = allMemos;
   }
 
-  async objectsToJson(allMemos) {
+  async getJson() {
+    const allMemos = this.#memos;
     const allLines = [];
     await allMemos.forEach((oneMemo) => {
       allLines.push(oneMemo.getLines());

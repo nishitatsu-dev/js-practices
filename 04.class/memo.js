@@ -6,15 +6,17 @@ import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
 import FileOperation from "./file_operation.js";
 
-function listMemoName(memoObjects) {
-  memoObjects.forEach((oneMemo) => {
+function listMemoName(allMemos) {
+  const memos = allMemos.getMemos();
+  memos.forEach((oneMemo) => {
     console.log(oneMemo.getFirstLine());
   });
 }
 
-async function referMemoValue(memoObjects) {
+async function referMemoValue(allMemos) {
   const displayItems = [];
-  await memoObjects.forEach((oneMemo) => {
+  const memos = allMemos.getMemos();
+  await memos.forEach((oneMemo) => {
     const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
     displayItems.push(item);
   });
@@ -30,9 +32,10 @@ async function referMemoValue(memoObjects) {
   console.log(answers.note);
 }
 
-async function deleteMemo(memoObjects, allMemos, file) {
+async function deleteMemo(allMemos, file) {
   const displayItems = [];
-  await memoObjects.forEach((oneMemo, index) => {
+  const memos = allMemos.getMemos();
+  await memos.forEach((oneMemo, index) => {
     const Item = { name: oneMemo.getFirstLine(), value: index };
     displayItems.push(Item);
   });
@@ -45,8 +48,10 @@ async function deleteMemo(memoObjects, allMemos, file) {
       choices: displayItems,
     },
   ]);
-  await memoObjects.splice(answers.note, 1);
-  const memoJson = await allMemos.objectsToJson(memoObjects);
+  const index = answers.note;
+
+  allMemos.delete(index);
+  const memoJson = await allMemos.getJson();
   file.writeFile(memoJson);
 }
 
@@ -65,8 +70,8 @@ async function readTerminal() {
 
 async function writeMemo(allMemos, file) {
   const newLines = await readTerminal();
-  const memoObjects = await allMemos.add(newLines);
-  const memoJson = await allMemos.objectsToJson(memoObjects);
+  allMemos.add(newLines);
+  const memoJson = await allMemos.getJson();
   file.writeFile(memoJson);
 }
 
@@ -77,21 +82,17 @@ const options = program.opts();
 const file = new FileOperation("memofile.json");
 await file.check();
 const memoJson = await file.readFile();
+
 const allMemos = new AllMemos();
-const memoObjects = await allMemos.jsonToObjects(memoJson);
+await allMemos.toObjects(memoJson);
+const memos = allMemos.getMemos();
 
 if (options.l) {
-  memoObjects.length === 0
-    ? console.log("メモ無し")
-    : listMemoName(memoObjects);
+  memos.length === 0 ? console.log("メモ無し") : listMemoName(allMemos);
 } else if (options.r) {
-  memoObjects.length === 0
-    ? console.log("メモ無し")
-    : referMemoValue(memoObjects);
+  memos.length === 0 ? console.log("メモ無し") : referMemoValue(allMemos);
 } else if (options.d) {
-  memoObjects.length === 0
-    ? console.log("メモ無し")
-    : deleteMemo(memoObjects, allMemos, file);
+  memos.length === 0 ? console.log("メモ無し") : deleteMemo(allMemos, file);
 } else {
   writeMemo(allMemos, file);
 }
