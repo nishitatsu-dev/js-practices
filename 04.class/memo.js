@@ -51,8 +51,7 @@ async function deleteMemo(allMemos, file) {
   const index = answers.note;
 
   allMemos.delete(index);
-  const memoJson = await allMemos.getJson();
-  file.writeFile(memoJson);
+  await file.writeFile(allMemos);
 }
 
 async function readTerminal() {
@@ -71,8 +70,7 @@ async function readTerminal() {
 async function writeMemo(allMemos, file) {
   const newLines = await readTerminal();
   allMemos.add(newLines);
-  const memoJson = await allMemos.getJson();
-  file.writeFile(memoJson);
+  await file.writeFile(allMemos);
 }
 
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
@@ -81,10 +79,9 @@ const options = program.opts();
 
 const file = new FileOperation("memofile.json");
 await file.check();
-const memoJson = await file.readFile();
+const memoObjects = await file.readFile();
 
-const allMemos = new AllMemos();
-await allMemos.toObjects(memoJson);
+const allMemos = new AllMemos(memoObjects);
 const memos = allMemos.getMemos();
 
 if (options.l) {

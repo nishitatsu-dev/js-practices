@@ -1,4 +1,5 @@
 import * as fs from "node:fs/promises";
+import OneMemo from "./one_memo.js";
 
 export default class FileOperation {
   #fileName;
@@ -25,10 +26,22 @@ export default class FileOperation {
     const memoFileJson = await fs.readFile(this.#fileName, {
       encoding: "utf8",
     });
-    return memoFileJson;
+    const allLines = JSON.parse(memoFileJson).allLines;
+    const memoObjects = [];
+    await allLines.forEach((lines) => {
+      memoObjects.push(new OneMemo(lines));
+    });
+    return memoObjects;
   }
 
-  async writeFile(memoJson) {
+  async writeFile(allMemos) {
+    const memoObjects = allMemos.getMemos();
+    const allLines = [];
+    await memoObjects.forEach((oneMemo) => {
+      allLines.push(oneMemo.getLines());
+    });
+    const memoFile = { allLines: allLines };
+    const memoJson = JSON.stringify(memoFile, null, 2);
     await fs.writeFile(this.#fileName, memoJson);
   }
 }
