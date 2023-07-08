@@ -36,8 +36,8 @@ async function referMemoValue(allMemos) {
 async function deleteMemo(allMemos, file) {
   const displayItems = [];
   const memos = allMemos.getMemos();
-  await memos.forEach((oneMemo, index) => {
-    const Item = { name: oneMemo.getFirstLine(), value: index };
+  await memos.forEach((oneMemo) => {
+    const Item = { name: oneMemo.getFirstLine(), value: oneMemo };
     displayItems.push(Item);
   });
 
@@ -49,9 +49,9 @@ async function deleteMemo(allMemos, file) {
       choices: displayItems,
     },
   ]);
-  const index = answers.note;
+  const trashMemo = answers.note;
 
-  allMemos.delete(index);
+  allMemos.delete(trashMemo);
   await file.writeFile(allMemos);
 }
 

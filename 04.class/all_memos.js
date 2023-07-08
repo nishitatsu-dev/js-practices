@@ -8,7 +8,8 @@ export default class AllMemos {
     return this.#memos;
   }
 
-  delete(index) {
+  delete(oneMemo) {
+    const index = this.#memos.indexOf(oneMemo);
     this.#memos.splice(index, 1);
   }
 
