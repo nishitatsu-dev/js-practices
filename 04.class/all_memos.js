@@ -13,9 +13,9 @@ export default class AllMemos {
     this.#memos.splice(index, 1);
   }
 
-  add(newMemo) {
+  add(oneMemo) {
     const allMemos = this.#memos;
-    allMemos.push(newMemo);
+    allMemos.push(oneMemo);
     this.#memos = allMemos;
   }
 }
