@@ -4,6 +4,7 @@ import { program } from "commander";
 import inquirer from "inquirer";
 import * as readline from "node:readline/promises";
 import AllMemos from "./all_memos.js";
+import OneMemo from "./one_memo.js";
 import FileOperation from "./file_operation.js";
 
 function listMemoName(allMemos) {
@@ -64,12 +65,13 @@ async function readTerminal() {
   for await (const line of reader) {
     newLines.push(line);
   }
-  return newLines;
+  const newMemo = new OneMemo(newLines);
+  return newMemo;
 }
 
 async function writeMemo(allMemos, file) {
-  const newLines = await readTerminal();
-  allMemos.add(newLines);
+  const newMemo = await readTerminal();
+  allMemos.add(newMemo);
   await file.writeFile(allMemos);
 }
 

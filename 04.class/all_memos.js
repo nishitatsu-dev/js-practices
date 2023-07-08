@@ -1,5 +1,3 @@
-import OneMemo from "./one_memo.js";
-
 export default class AllMemos {
   #memos;
   constructor(memoObjects) {
@@ -14,8 +12,7 @@ export default class AllMemos {
     this.#memos.splice(index, 1);
   }
 
-  add(newLines) {
-    const newMemo = new OneMemo(newLines);
+  add(newMemo) {
     const allMemos = this.#memos;
     allMemos.push(newMemo);
     this.#memos = allMemos;
