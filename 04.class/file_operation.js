@@ -3,6 +3,7 @@ import OneMemo from "./one_memo.js";
 
 export default class FileOperation {
   #fileName;
+
   constructor(fileName) {
     this.#fileName = fileName;
   }

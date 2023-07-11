@@ -1,5 +1,6 @@
 export default class OneMemo {
   #lines;
+
   constructor(lines) {
     this.#lines = lines;
   }

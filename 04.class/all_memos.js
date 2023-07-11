@@ -1,5 +1,6 @@
 export default class AllMemos {
   #memos;
+
   constructor(memoObjects) {
     this.#memos = memoObjects;
   }
