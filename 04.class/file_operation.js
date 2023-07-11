@@ -29,7 +29,7 @@ export default class FileOperation {
     });
     const allLines = JSON.parse(memoFileJson).allLines;
     const memoObjects = [];
-    await allLines.forEach((lines) => {
+    allLines.forEach((lines) => {
       memoObjects.push(new OneMemo(lines));
     });
     return memoObjects;
@@ -38,7 +38,7 @@ export default class FileOperation {
   async writeFile(allMemos) {
     const memoObjects = allMemos.getMemos();
     const allLines = [];
-    await memoObjects.forEach((oneMemo) => {
+    memoObjects.forEach((oneMemo) => {
       allLines.push(oneMemo.getLines());
     });
     const memoFile = { allLines: allLines };

@@ -17,7 +17,7 @@ function listMemoName(allMemos) {
 async function referMemoValue(allMemos) {
   const displayItems = [];
   const memos = allMemos.getMemos();
-  await memos.forEach((oneMemo) => {
+  memos.forEach((oneMemo) => {
     const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
     displayItems.push(item);
   });
@@ -36,7 +36,7 @@ async function referMemoValue(allMemos) {
 async function deleteMemo(allMemos, file) {
   const displayItems = [];
   const memos = allMemos.getMemos();
-  await memos.forEach((oneMemo) => {
+  memos.forEach((oneMemo) => {
     const Item = { name: oneMemo.getFirstLine(), value: oneMemo };
     displayItems.push(Item);
   });
