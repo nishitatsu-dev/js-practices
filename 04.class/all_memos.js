@@ -15,8 +15,6 @@ export default class AllMemos {
   }
 
   add(oneMemo) {
-    const allMemos = this.#memos;
-    allMemos.push(oneMemo);
-    this.#memos = allMemos;
+    this.#memos.push(oneMemo);
   }
 }
