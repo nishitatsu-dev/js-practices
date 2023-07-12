@@ -33,7 +33,7 @@ async function referMemoValue(allMemos) {
   console.log(answers.note);
 }
 
-async function deleteMemo(allMemos, file) {
+async function deleteMemo(allMemos, fileOperation) {
   const displayItems = [];
   const memos = allMemos.getMemos();
   memos.forEach((oneMemo) => {
@@ -52,7 +52,7 @@ async function deleteMemo(allMemos, file) {
   const trashMemo = answers.note;
 
   allMemos.delete(trashMemo);
-  await file.writeFile(allMemos);
+  await fileOperation.writeFile(allMemos);
 }
 
 async function readTerminal() {
@@ -69,19 +69,19 @@ async function readTerminal() {
   return newMemo;
 }
 
-async function writeMemo(allMemos, file) {
+async function writeMemo(allMemos, fileOperation) {
   const newMemo = await readTerminal();
   allMemos.add(newMemo);
-  await file.writeFile(allMemos);
+  await fileOperation.writeFile(allMemos);
 }
 
 program.option("-l", "list").option("-r", "refer").option("-d", "delete");
 program.parse(process.argv);
 const options = program.opts();
 
-const file = new FileOperation("memofile.json");
-await file.check();
-const memoObjects = await file.readFile();
+const fileOperation = new FileOperation("memofile.json");
+await fileOperation.check();
+const memoObjects = await fileOperation.readFile();
 
 const allMemos = new AllMemos(memoObjects);
 const memos = allMemos.getMemos();
@@ -91,7 +91,9 @@ if (options.l) {
 } else if (options.r) {
   memos.length === 0 ? console.log("メモ無し") : referMemoValue(allMemos);
 } else if (options.d) {
-  memos.length === 0 ? console.log("メモ無し") : deleteMemo(allMemos, file);
+  memos.length === 0
+    ? console.log("メモ無し")
+    : deleteMemo(allMemos, fileOperation);
 } else {
-  writeMemo(allMemos, file);
+  writeMemo(allMemos, fileOperation);
 }
