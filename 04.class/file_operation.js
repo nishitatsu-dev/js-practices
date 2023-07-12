@@ -27,7 +27,7 @@ export default class FileOperation {
     const memoFileJson = await fs.readFile(this.#fileName, {
       encoding: "utf8",
     });
-    const allLines = JSON.parse(memoFileJson).allLines;
+    const { allLines } = JSON.parse(memoFileJson);
     const memoObjects = [];
     allLines.forEach((lines) => {
       memoObjects.push(new OneMemo(lines));
