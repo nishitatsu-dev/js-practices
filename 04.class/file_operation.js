@@ -41,8 +41,8 @@ export default class FileOperation {
     memoObjects.forEach((oneMemo) => {
       allLines.push(oneMemo.getLines());
     });
-    const memoFile = { allLines: allLines };
-    const memoJson = JSON.stringify(memoFile, null, 2);
+    const linesObject = { allLines };
+    const memoJson = JSON.stringify(linesObject, null, 2);
     await fs.writeFile(this.#fileName, memoJson);
   }
 }
