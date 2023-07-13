@@ -9,7 +9,7 @@ export default class FileOperation {
     this.#fileName = fileName;
   }
 
-  async check() {
+  async setInitialFile() {
     try {
       await fs.stat(this.#fileName);
     } catch (e) {

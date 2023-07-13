@@ -78,7 +78,7 @@ program.parse(process.argv);
 const options = program.opts();
 
 const fileOperation = new FileOperation("memofile.json");
-await fileOperation.check();
+await fileOperation.setInitialFile();
 const memoMap = await fileOperation.readFile();
 
 const allMemos = new AllMemos(memoMap);
