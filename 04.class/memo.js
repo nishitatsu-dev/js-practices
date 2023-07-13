@@ -24,12 +24,12 @@ async function referMemoValue(allMemos) {
   const answers = await inquirer.prompt([
     {
       type: "list",
-      name: "note",
-      message: "Choose a note you want to see:",
+      name: "memo",
+      message: "Choose a memo you want to see:",
       choices: displayItems,
     },
   ]);
-  console.log(answers.note);
+  console.log(answers.memo);
 }
 
 async function deleteMemo(allMemos, fileOperation) {
@@ -42,12 +42,12 @@ async function deleteMemo(allMemos, fileOperation) {
   const answers = await inquirer.prompt([
     {
       type: "list",
-      name: "note",
-      message: "Choose a note you want to delete:",
+      name: "memo",
+      message: "Choose a memo you want to delete:",
       choices: displayItems,
     },
   ]);
-  const trashMemo = answers.note;
+  const trashMemo = answers.memo;
 
   allMemos.delete(trashMemo);
   await fileOperation.writeFile(allMemos);
