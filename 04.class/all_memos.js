@@ -1,3 +1,5 @@
+import Item from "./item.js";
+
 export default class AllMemos {
   #memos;
 
@@ -10,11 +12,10 @@ export default class AllMemos {
   }
 
   delete(oneMemo) {
-    const index = this.#memos.indexOf(oneMemo);
-    this.#memos.splice(index, 1);
+    this.#memos.delete(oneMemo);
   }
 
   add(oneMemo) {
-    this.#memos.push(oneMemo);
+    this.#memos.set(oneMemo, new Item(oneMemo));
   }
 }

@@ -9,17 +9,16 @@ import FileOperation from "./file_operation.js";
 
 function listMemoName(allMemos) {
   const memos = allMemos.getMemos();
-  memos.forEach((oneMemo) => {
-    console.log(oneMemo.getFirstLine());
+  memos.forEach((item) => {
+    console.log(item.getListItem());
   });
 }
 
 async function referMemoValue(allMemos) {
   const displayItems = [];
   const memos = allMemos.getMemos();
-  memos.forEach((oneMemo) => {
-    const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
-    displayItems.push(item);
+  memos.forEach((item) => {
+    displayItems.push(item.getReferItem());
   });
 
   const answers = await inquirer.prompt([
@@ -36,9 +35,8 @@ async function referMemoValue(allMemos) {
 async function deleteMemo(allMemos, fileOperation) {
   const displayItems = [];
   const memos = allMemos.getMemos();
-  memos.forEach((oneMemo) => {
-    const Item = { name: oneMemo.getFirstLine(), value: oneMemo };
-    displayItems.push(Item);
+  memos.forEach((item) => {
+    displayItems.push(item.getDeleteItem());
   });
 
   const answers = await inquirer.prompt([
@@ -81,9 +79,9 @@ const options = program.opts();
 
 const fileOperation = new FileOperation("memofile.json");
 await fileOperation.check();
-const memoObjects = await fileOperation.readFile();
+const memoMap = await fileOperation.readFile();
 
-const allMemos = new AllMemos(memoObjects);
+const allMemos = new AllMemos(memoMap);
 const memos = allMemos.getMemos();
 
 if (options.l) {
