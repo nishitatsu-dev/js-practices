@@ -28,18 +28,16 @@ export default class FileOperation {
       encoding: "utf8",
     });
     const { allLines } = JSON.parse(memoFileJson);
-    const memoObjects = [];
-    allLines.forEach((lines) => {
-      memoObjects.push(new OneMemo(lines));
+    const memoObjects = allLines.map((lines) => {
+      return new OneMemo(lines);
     });
     return memoObjects;
   }
 
   async writeFile(allMemos) {
     const memoObjects = allMemos.getMemos();
-    const allLines = [];
-    memoObjects.forEach((oneMemo) => {
-      allLines.push(oneMemo.getLines());
+    const allLines = memoObjects.map((oneMemo) => {
+      return oneMemo.getLines();
     });
     const linesObject = { allLines };
     const memoJson = JSON.stringify(linesObject, null, 2);

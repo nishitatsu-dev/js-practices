@@ -15,11 +15,9 @@ function listMemoName(allMemos) {
 }
 
 async function referMemoValue(allMemos) {
-  const displayItems = [];
   const memos = allMemos.getMemos();
-  memos.forEach((oneMemo) => {
-    const item = { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
-    displayItems.push(item);
+  const displayItems = memos.map((oneMemo) => {
+    return { name: oneMemo.getFirstLine(), value: oneMemo.getFullText() };
   });
 
   const answers = await inquirer.prompt([
@@ -34,11 +32,9 @@ async function referMemoValue(allMemos) {
 }
 
 async function deleteMemo(allMemos, fileOperation) {
-  const displayItems = [];
   const memos = allMemos.getMemos();
-  memos.forEach((oneMemo) => {
-    const Item = { name: oneMemo.getFirstLine(), value: oneMemo };
-    displayItems.push(Item);
+  const displayItems = memos.map((oneMemo) => {
+    return { name: oneMemo.getFirstLine(), value: oneMemo };
   });
 
   const answers = await inquirer.prompt([
