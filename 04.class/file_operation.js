@@ -1,6 +1,5 @@
 import * as fs from "node:fs/promises";
 import OneMemo from "./one_memo.js";
-import Item from "./item.js";
 
 export default class FileOperation {
   #fileName;
@@ -29,20 +28,19 @@ export default class FileOperation {
       encoding: "utf8",
     });
     const { allLines } = JSON.parse(memoFileJson);
-    const memoMap = new Map();
+    const memoObjects = [];
     allLines.forEach((lines) => {
-      const oneMemo = new OneMemo(lines);
-      memoMap.set(oneMemo, new Item(oneMemo));
+      memoObjects.push(new OneMemo(lines));
     });
-    return memoMap;
+    return memoObjects;
   }
 
   async writeFile(allMemos) {
-    const memos = allMemos.getMemos();
+    const memoObjects = allMemos.getMemos();
     const allLines = [];
-    for (const key of memos.keys()) {
-      allLines.push(key.getLines());
-    }
+    memoObjects.forEach((oneMemo) => {
+      allLines.push(oneMemo.getLines());
+    });
     const linesObject = { allLines };
     const memoJson = JSON.stringify(linesObject, null, 2);
     await fs.writeFile(this.#fileName, memoJson);
