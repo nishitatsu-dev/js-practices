@@ -10,7 +10,7 @@ export default class FileOperation {
 
   async setInitialFile() {
     try {
-      await fs.stat(this.#fileName);
+      await fs.access(this.#fileName, fs.constants.F_OK);
     } catch (e) {
       if (e.constructor === Error && e.code === "ENOENT") {
         const memoFile = { allLines: [] };
